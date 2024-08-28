@@ -8,7 +8,7 @@ def habit():
     return Habit("testName", "testDescription", 1)
 
 
-def test_empty(habit):
+def test_empty(habit: Habit):
     assert habit.name == "testName"
     assert habit.description == "testDescription"
     assert habit.frequency_in_hours == 1
@@ -16,35 +16,35 @@ def test_empty(habit):
     assert habit.lastMarkedDone == None
 
 
-def test_fulfill(habit):
+def test_fulfill(habit: Habit):
     habit.fulfill()
     assert habit.eventList == [HabitEvent.DONE]
     assert habit.lastMarkedDone != None
 
 
-def test_fail(habit):
+def test_fail(habit: Habit):
     habit.fail()
     assert habit.eventList == [HabitEvent.FAILED]
     assert habit.lastMarkedDone == None
 
 
-def test_reset(habit):
+def test_reset(habit: Habit):
     habit.fulfill()
     habit.reset()
     assert habit.eventList == []
     assert habit.lastMarkedDone == None
 
 
-def test_is_streak_not_broken(habit):
+def test_is_streak_not_broken(habit: Habit):
     habit.fulfill()
     assert habit.is_streak_broken() == False
 
 
-def test_is_streak_broken(habit):
+def test_is_streak_broken(habit: Habit):
     habit.fulfill()
     habit.lastMarkedDone = habit.lastMarkedDone - timedelta(hours=2)
     assert habit.is_streak_broken() == True
 
 
-def test_is_streak_broken_on_empty(habit):
+def test_is_streak_broken_on_empty(habit: Habit):
     assert habit.is_streak_broken() == True
