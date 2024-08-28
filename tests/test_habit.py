@@ -2,9 +2,11 @@ import pytest
 from datetime import datetime, timedelta
 from app.habit import Habit, HabitEvent
 
+
 @pytest.fixture
 def habit():
     return Habit("testName", "testDescription", 1)
+
 
 def test_empty(habit):
     assert habit.name == "testName"

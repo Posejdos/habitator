@@ -1,8 +1,9 @@
 from json_file import JSONFile
 from habit import Habit
 
+
 class User:
-    def __init__(self, name = None, jsonPath = None):
+    def __init__(self, name=None, jsonPath=None):
         self.name = name
         self.jsonFile = JSONFile(jsonPath)
         self.habits = []
