@@ -1,11 +1,24 @@
-if __name__ == "__main__":
-    from user import User
+import click
+from user import User
 
+@click.group()
+def cli():
+    pass
 
-def main():
-    user = User("Steve", "tests/Steve.json")
+@click.command()
+@click.option('--username', default='Steve', help='The username of the person.')
+def read(username):
+    user = User(username, f"tests/{username}.json")
     user.try_load_data_from_json()
 
+    if not user.habits:
+        click.echo(f"No habits found for user: {username}")
+        return
 
+    click.echo(f"Habits for user: {username} \n")
+    for habit in user.habits:
+        click.echo(habit)
+
+cli.add_command(read)
 if __name__ == "__main__":
-    main()
+    cli()

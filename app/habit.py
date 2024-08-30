@@ -36,9 +36,8 @@ class Habit:
         return timeSinceDone > maxWait
 
     def __str__(self):
-        return (
-            f"Habit(name='{self.name}', description='{self.description}', "
-            f"frequency_in_hours={self.frequency_in_hours}, "
-            f"doneCnt={self.stats.doneCnt}, failedCnt={self.stats.failedCnt}, "
-            f"currentStreak={self.stats.currentStreak}, longestStreak={self.stats.longestStreak})"
-        )
+        name = f"Name: {self.name}"
+        description = f"Description: {self.description}"
+        frequency = f"Frequency in hours: {self.frequency_in_hours}"
+        lastMarkedDone = f"Last marked done: {self.lastMarkedDone}"
+        return f"{name}\n{description}\n{frequency}\n{lastMarkedDone}\n"
