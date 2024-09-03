@@ -8,7 +8,7 @@ def cli():
     pass
 
 
-# Read Habits of user
+# Read habits of user
 
 
 @click.command()
@@ -63,6 +63,43 @@ def add_habit(username, habit_name, habit_description, habit_frequency):
         click.echo(habit)
 
 
+# Mark done a habit for user
+
+
+@click.command()
+@click.option(
+    "--username",
+    prompt="Enter your username",
+    help="The username of the user.",
+)
+@click.option(
+    "--habit-name",
+    prompt="Enter the name of the habit to mark as done",
+    help="The name of the habit to mark as done.",
+)
+def mark_done(username, habit_name):
+    user = User(username, f"tests/{username}.json")
+    user_found = user.try_load_data_from_json()
+
+    if not user_found:
+        click.echo(f"User not found: {username}")
+        return
+
+    habit_found = False
+    for habit in user.habits:
+        if habit.name == habit_name:
+            habit.fulfill()
+            habit_found = True
+            break
+
+    if habit_found:
+        user.save_data_to_json()
+        click.echo(f"Habit '{habit_name}' marked as done for user: {username}")
+    else:
+        click.echo(f"Habit '{habit_name}' not found for user: {username}")
+
+
+cli.add_command(mark_done)
 cli.add_command(add_habit)
 cli.add_command(read)
 if __name__ == "__main__":
