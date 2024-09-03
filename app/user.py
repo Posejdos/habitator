@@ -1,6 +1,6 @@
 from datetime import datetime
-from json_file import JSONFile
-from habit import Habit, HabitEvent
+from app.json_file import JSONFile
+from app.habit import Habit, HabitEvent
 
 
 class User:
