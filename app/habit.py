@@ -35,6 +35,18 @@ class Habit:
         maxWait = timedelta(hours=self.frequency_in_hours)
         return timeSinceDone > maxWait
 
+    def get_longest_streak(self):
+        longestStreak = 0
+        currentStreak = 0
+        for event in self.eventList:
+            if event == HabitEvent.DONE:
+                currentStreak += 1
+                if currentStreak > longestStreak:
+                    longestStreak = currentStreak
+            else:
+                currentStreak = 0
+        return longestStreak
+
     def __str__(self):
         name = f"Name: {self.name}"
         description = f"Description: {self.description}"

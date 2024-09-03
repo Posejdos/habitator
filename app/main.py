@@ -175,6 +175,38 @@ def read_same_periodicity(username, periodicity):
         click.echo(habit)
 
 
+# Read the habit with the longest streak
+@click.command()
+@click.option(
+    "--username",
+    prompt="Enter your username",
+    help="The username of the user.",
+)
+def longest_streak(username):
+    user = User(username, f"tests/{username}.json")
+    user.try_load_data_from_json()
+
+    if not user.habits:
+        click.echo(f"No habits found for user: {username}")
+        return
+
+    longest_streak_habit = None
+    longest_streak_length = 0
+
+    for habit in user.habits:
+        streak = habit.get_longest_streak()
+        if streak > longest_streak_length:
+            longest_streak_length = streak
+            longest_streak_habit = habit
+
+    if longest_streak_habit:
+        click.echo(
+            f"The habit with the longest streak is '{longest_streak_habit.name}' with a streak of {longest_streak_length} events."
+        )
+    else:
+        click.echo(f"No streaks found for user: {username}")
+
+cli.add_command(longest_streak)
 cli.add_command(read_same_periodicity)
 cli.add_command(mark_failed)
 cli.add_command(mark_done)
