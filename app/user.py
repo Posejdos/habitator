@@ -43,9 +43,11 @@ class User:
 
         newHabit = Habit(habitName, habitDescription, habitFrequency)
         newHabit.eventList = self.parse_event_list(habitEventList)
-        newHabit.lastMarkedDone = datetime.strptime(
-            habitLastMarkedDone, "%Y-%m-%dT%H:%M:%S"
-        )
+
+        if habitLastMarkedDone != "":
+            newHabit.lastMarkedDone = datetime.strptime(
+                habitLastMarkedDone, "%Y-%m-%dT%H:%M:%S"
+            )
 
         self.habits.append(newHabit)
 
