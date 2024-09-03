@@ -206,6 +206,45 @@ def longest_streak(username):
     else:
         click.echo(f"No streaks found for user: {username}")
 
+
+# Read a habits longest streak
+
+
+@click.command()
+@click.option(
+    "--username",
+    prompt="Enter your username",
+    help="The username of the user.",
+)
+@click.option(
+    "--habit-name",
+    prompt="Enter the name of the habit",
+    help="The name of the habit to get the longest streak for.",
+)
+def habit_longest_streak(username, habit_name):
+    user = User(username, f"tests/{username}.json")
+    user.try_load_data_from_json()
+
+    if not user.habits:
+        click.echo(f"No habits found for user: {username}")
+        return
+
+    habit_found = False
+    for habit in user.habits:
+        if habit.name == habit_name:
+            longest_streak = habit.get_longest_streak()
+            habit_found = True
+            break
+
+    if habit_found:
+        click.echo(
+            f"The longest streak for habit '{habit_name}' is {longest_streak} events."
+        )
+    else:
+        click.echo(f"Habit '{habit_name}' not found for user: {username}")
+
+
+cli.add_command(habit_longest_streak)
 cli.add_command(longest_streak)
 cli.add_command(read_same_periodicity)
 cli.add_command(mark_failed)
