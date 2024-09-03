@@ -8,24 +8,6 @@ def cli():
     pass
 
 
-# Read habits of user
-
-
-@click.command()
-@click.option("--username", default="Steve", help="The username of the person.")
-def read(username):
-    user = User(username, f"tests/{username}.json")
-    user.try_load_data_from_json()
-
-    if not user.habits:
-        click.echo(f"No habits found for user: {username}")
-        return
-
-    click.echo(f"Habits for user: {username} \n")
-    for habit in user.habits:
-        click.echo(habit)
-
-
 # Create a new habit for user
 
 
@@ -135,6 +117,65 @@ def mark_failed(username, habit_name):
         click.echo(f"Habit '{habit_name}' not found for user: {username}")
 
 
+# ANALYTICS
+
+# Read habits of user
+
+
+@click.command()
+@click.option("--username", default="Steve", help="The username of the person.")
+def read(username):
+    user = User(username, f"tests/{username}.json")
+    user.try_load_data_from_json()
+
+    if not user.habits:
+        click.echo(f"No habits found for user: {username}")
+        return
+
+    click.echo(f"Habits for user: {username} \n")
+    for habit in user.habits:
+        click.echo(habit)
+
+
+# Read habits of user with same periodicity
+
+
+@click.command()
+@click.option(
+    "--username",
+    prompt="Enter your username",
+    help="The username of the user.",
+)
+@click.option(
+    "--periodicity",
+    prompt="Enter the periodicity in hours",
+    type=int,
+    help="The periodicity in hours to filter habits.",
+)
+def read_same_periodicity(username, periodicity):
+    user = User(username, f"tests/{username}.json")
+    user.try_load_data_from_json()
+
+    if not user.habits:
+        click.echo(f"No habits found for user: {username}")
+        return
+
+    filtered_habits = [
+        habit for habit in user.habits if habit.frequency_in_hours == periodicity
+    ]
+
+    if not filtered_habits:
+        click.echo(
+            f"No habits found with periodicity {periodicity} hours for user: {username}"
+        )
+        return
+
+    click.echo(f"Habits for user: {username} with periodicity {periodicity} hours\n")
+    for habit in filtered_habits:
+        click.echo(habit)
+
+
+cli.add_command(read_same_periodicity)
 cli.add_command(mark_failed)
 cli.add_command(mark_done)
 cli.add_command(add_habit)
