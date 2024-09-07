@@ -49,12 +49,15 @@ def test_is_streak_broken(habit: Habit):
 def test_is_streak_broken_on_empty(habit: Habit):
     assert habit.is_streak_broken() == True
 
+
 def test_get_longest_streak_zero(habit: Habit):
     assert habit.get_longest_streak() == 0
+
 
 def test_get_longest_streak_one(habit: Habit):
     habit.fulfill()
     assert habit.get_longest_streak() == 1
+
 
 def test_get_longest_streak_after_fail(habit: Habit):
     habit.fulfill()
