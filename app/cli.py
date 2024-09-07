@@ -1,6 +1,6 @@
 import click
-from user import User
-from habit import Habit
+from app.user import User
+from app.habit import Habit
 
 
 @click.group()
